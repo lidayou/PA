@@ -12,4 +12,4 @@ git clone https://github.com/ics-pa/pa2017.git
 
 # Guide book
 
-URL will be available soon
+https://cs.nju.edu.cn/wangliang/pa2017.html
