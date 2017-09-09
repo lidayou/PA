@@ -386,7 +386,7 @@ uint32_t alu_sar(uint32_t src, uint32_t dest, size_t data_size) {
     {
         shift_sign=temp&0x1;
         uint32_t val=hign_sign;
-        hign_sign=(hign>>1)|hign_sign;
+        hign_sign=(hign_sign>>1)|val;
         temp=temp>>1;
     }
     if(hign_sign>0)     // note we need return his sign
