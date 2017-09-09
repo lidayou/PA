@@ -72,7 +72,8 @@ uint32_t alu_add(uint32_t src, uint32_t dest) {
 void set_CF_adc(uint32_t result,uint32_t src,uint32_t dest)
 {
     unsigned temp=result<src||result<(dest+cpu.eflags.CF)||result<(src+cpu.eflags.CF)||result<dest;
-    cpu.eflags.CF=temp^cpu.eflags.CF;
+   // cpu.eflags.CF=temp^cpu.eflags.CF;
+   cpu.eflag.CF=temp;
 }
 
 
