@@ -1,11 +1,13 @@
 #include "cpu/cpu.h"
 
+/*
+ * this function has been in alu.h 
 uint32_t sign(uint32_t temp)
 { 
     uint32_t result=temp>>31;
     return result;
 }
-
+*/
 void set_CF_add(uint32_t result,uint32_t src,uint32_t dest)
 {
     cpu.eflags.CF=result<src||result<dest;
