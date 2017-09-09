@@ -69,6 +69,7 @@ uint32_t alu_add(uint32_t src, uint32_t dest) {
     return result;
 }
 
+// this is wrong
 /*
 void set_CF_adc(uint32_t& result,uint32_t src,uint32_t dest)
 {
@@ -83,6 +84,8 @@ void set_CF_adc(uint32_t& result,uint32_t src,uint32_t dest)
 }
 */
 
+
+//this is no need
 /*
 void set_OF_adc(uint32_t result,uint32_t src,uint32_t dest)
 {
@@ -120,12 +123,40 @@ uint32_t alu_adc(uint32_t src, uint32_t dest) {
     return result;
 }
 
+void set_CF_sub(uint32_t result,uint32_t src,uint32_t dest)
+{
+    //not sure downhere is right
+//    set_CF_add(result,-src,dest);
+    uint32_t temp=~src;
+    uint32_t temp_result=temp+dest;
+    set_CF_add(temp_result,temp,dest);
+    //divide three numbers sum to two numbers
+    if(cpu.eflags.CF!=1)
+    {
+        set_CF_add(result,temp_result,1);
+    }
+}
 
+
+void set_OF_sub(uint32_t result,uint32_t src,uint32_t dest)
+{
+    uint32_t sign_dest=dest>>31;
+    uint32_t sign_src=src>>31;
+    uint32_t sign_result=result>>31;
+    if(sign_dest!=sign_src&&sign_dest!=sign_result)
+        cpu.eflags.OF=1;
+    else
+        cpu.eflags.OF=0;
+}
 uint32_t alu_sub(uint32_t src, uint32_t dest)
 {
-	printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-	assert(0);
-	return 0;
+	uint32_t result=dest-src;
+    set_CF_sub(result,src,dest);
+    set_PF(result);
+    set_ZF(result);
+    set_SF(result);
+    set_OF_sub(result,src,dest);
+    return result;
 }
 
 uint32_t alu_sbb(uint32_t src, uint32_t dest) {
