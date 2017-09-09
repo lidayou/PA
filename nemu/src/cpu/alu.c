@@ -177,6 +177,7 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
     set_PF(result);
     set_ZF(result);
     set_SF(result);
+    return result;
 }
 
 
