@@ -100,8 +100,16 @@ uint32_t alu_adc(uint32_t src, uint32_t dest) {
 	uint32_t result=src+dest;
     if(cpu.eflags.CF==1)
     {
+        //three numbers sum 
+        //their CF is different
+        //for example 1111 1111 1  1111
+        //the raw solution is wrong
+        set_CF_add(result,src,dest);
         result+=1;
-        set_CF_add(result,1,result-1);
+        if(cpu.eflags.CF==0)
+        {
+            set_CF_add(result,1,result-1);
+        }
     }
     else
         set_CF_add(result,src,dest);
