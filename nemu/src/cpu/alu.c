@@ -225,22 +225,32 @@ int32_t alu_imod(int64_t src, int64_t dest) {
 	return 0;
 }
 
+void set_flags_of_logic_Function(uint32_t result)
+{
+    cpu.eflags.OF=cpu.eflags.CF=0;
+    cpu.eflags.ZF=(result==0);
+    cpu.eflags.SF=(sign(result)==1);
+    set_PF(result);
+}
+
 uint32_t alu_and(uint32_t src, uint32_t dest) {
-	printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-	assert(0);
-	return 0;
+
+    uint32_t result=src&dest;
+    set_flags_of_logic_Function(result);
+    return result;
+
 }
 
 uint32_t alu_xor(uint32_t src, uint32_t dest) {
-	printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-	assert(0);
-	return 0;
+	uint32_t result=src^dest;
+    set_flags_of_logic_Function(result);
+    return result;
 }
 
 uint32_t alu_or(uint32_t src, uint32_t dest) {
-	printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-	assert(0);
-	return 0;
+	uint32_t result=src|dest;
+    set_flags_of_logic_Function(result);
+	return result;
 }
 
 uint32_t alu_shl(uint32_t src, uint32_t dest, size_t data_size) {
