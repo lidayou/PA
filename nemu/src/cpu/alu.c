@@ -71,29 +71,31 @@ uint32_t alu_add(uint32_t src, uint32_t dest) {
 
 void set_CF_adc(uint32_t result,uint32_t src,uint32_t dest)
 {
-    unsigned temp=result<src||result<(dest+1);
-    cpu.eflags.CF=temp^1;
+    unsigned temp=result<src||result<(dest+cpu.eflags.CF)||result<(src+cpu.eflags.CF)||result<dest;
+    cpu.eflags.CF=temp^cpu.eflags.CF;
 }
 
 
 /*
 void set_OF_adc(uint32_t result,uint32_t src,uint32_t dest)
 {
-    dest+=1;
+    dest+=cpu.eflags.CF;
     //if funcion has a function , so the effiency is low???
     //maybe this place can have a better choice
     set_OF_add(result,src,dest);
 }
 */
 
+
 uint32_t alu_adc(uint32_t src, uint32_t dest) {
     //represent add with cin
-	uint32_t result=src+dest+1;
-    set_CF_adc(result,src,dest);
+    //cin is what? 
+	uint32_t result=src+dest+cpu.eflags.CF;
+    set_CF_adc(result,src,desc);
     set_PF(result);
     set_ZF(result);
     set_SF(result);
-    set_OF_add(result,src,dest+1);
+    set_OF_add(result,src,dest+cpu.eflags.CF);
     return result;
 }
 
