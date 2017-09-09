@@ -161,9 +161,22 @@ uint32_t alu_sub(uint32_t src, uint32_t dest)
 }
 
 uint32_t alu_sbb(uint32_t src, uint32_t dest) {
-	printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-	assert(0);
-	return 0;
+	//if CF is 1 , result-1
+    uint32_t result=dest-src;
+    set_CF_sub(result,src,dest);
+    set_OF_sub(result,src,dest);
+
+    //divide the sub-work
+    if(cpu.eflags.CF==1)
+    {
+        uint32_t temp=result;
+        result=result-1;
+        set_CF_sub(result,1,temp);
+        set_OF_sub(result,1,temp);
+    }
+    set_PF(result);
+    set_ZF(result);
+    set_SF(result);
 }
 
 
