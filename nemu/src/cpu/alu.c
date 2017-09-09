@@ -91,7 +91,7 @@ uint32_t alu_adc(uint32_t src, uint32_t dest) {
     //represent add with cin
     //cin is what? 
 	uint32_t result=src+dest+cpu.eflags.CF;
-    set_CF_adc(result,src,desc);
+    set_CF_adc(result,src,dest);
     set_PF(result);
     set_ZF(result);
     set_SF(result);
