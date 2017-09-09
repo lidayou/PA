@@ -57,9 +57,9 @@ void set_OF_add(uint32_t result,uint32_t src,uint32_t dest)
 }
 
 uint32_t alu_add(uint32_t src, uint32_t dest) {
-	unit32_t result=src+dest;
+	uint32_t result=src+dest;
 	//setFlags
-    set_CF_add(result,src);
+    set_CF_add(result,src,dest);
     set_PF(result);
     set_ZF(result);
     set_SF(result);
