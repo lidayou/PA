@@ -69,6 +69,7 @@ uint32_t alu_add(uint32_t src, uint32_t dest) {
     return result;
 }
 
+/*
 void set_CF_adc(uint32_t& result,uint32_t src,uint32_t dest)
 {
     if(cpu.eflags.CF==1)
@@ -80,7 +81,7 @@ void set_CF_adc(uint32_t& result,uint32_t src,uint32_t dest)
         set_CF_add(result,src,dest);
    
 }
-
+*/
 
 /*
 void set_OF_adc(uint32_t result,uint32_t src,uint32_t dest)
@@ -96,8 +97,14 @@ void set_OF_adc(uint32_t result,uint32_t src,uint32_t dest)
 uint32_t alu_adc(uint32_t src, uint32_t dest) {
     //represent add with cin
     //cin is what? 
-	uint32_t result=src+dest+cpu.eflags.CF;
-    set_CF_adc(result,src,dest);
+	uint32_t result=src+dest;
+    if(cpu.eflags.CF==1)
+    {
+        result+=1;
+        set_CF_add(result,1,result-1);
+    }
+    else
+        set_CF_add(result,src,dest);
     set_PF(result);
     set_ZF(result);
     set_SF(result);
