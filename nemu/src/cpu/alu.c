@@ -285,7 +285,7 @@ uint32_t alu_shl(uint32_t src, uint32_t dest, size_t data_size) {
     
 
     uint32_t shift_sign=0;
-    for(unit32_t i=0;i<src;i++)
+    for(uint32_t i=0;i<src;i++)
     {
         if(data_size==8)
             shift_sign=temp&0x80;
@@ -293,7 +293,7 @@ uint32_t alu_shl(uint32_t src, uint32_t dest, size_t data_size) {
             shift_sign=temp&0x8000;
         else if(data_size==32)
             shift_sign=sign(temp);
-        temp<<1;
+        temp=temp<<1;
     }
     cpu.eflags.CF=(shift_sign!=0);
     
