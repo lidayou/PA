@@ -316,24 +316,109 @@ uint32_t alu_shl(uint32_t src, uint32_t dest, size_t data_size) {
 
     result=result|temp;
     
-    return result;
+   return result;
 }
 
 uint32_t alu_shr(uint32_t src, uint32_t dest, size_t data_size) {
-	printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-	assert(0);
+	
+    uint32_t result=dest;
+    uint32_t temp=dest;
+    if(data_size==8)
+         temp=temp&0xff;
+    else if(data_size==16)
+        temp=temp&0xffff;
+    
+// vim 's operations to delete       esc : line number , line number d   represents 
+// delete these lines
+// esc: line number, line number copy line number 
+// represents copy these lines to the line
+
+    uint32_t shift_sign=0;
+    for(uint32_t i=0;i<src;i++)
+    {
+        shift_sign=temp&0x1;
+        temp=temp>>1;
+    }
+    cpu.eflags.CF=(shift_sign!=0);
+    
+    if(data_size==8)
+    {
+        temp=temp&0xff;
+        result=result&0xffffff00;
+    }
+    else if(data_size==16)
+    {
+        temp=temp&0xffff;
+        result=result&0xffff0000;
+    }
+    else if(data_size==32)
+    {
+        result=result&0x0;
+    }
+
+    set_flags_of_shift_Functions(temp);
+
+    result=result|temp;
+    
+   return result;
 }
 
 uint32_t alu_sar(uint32_t src, uint32_t dest, size_t data_size) {
-	printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-	assert(0);
-	return 0;
+	
+    uint32_t result=dest;
+    uint32_t temp=dest;
+    uint32_t hign_sign=0;
+    if(data_size==8)
+    {
+         temp=temp&0xff;
+         hign_sign=temp&0x80;
+    }
+    else if(data_size==16)
+    {
+        temp=temp&0xffff;
+        hign_sign=temp&0x8000;
+    }
+    else if(data_size==32)
+        hign_sign=temp&0x80000000;
+    
+    uint32_t shift_sign=0;
+    for(uint32_t i=0;i<src;i++)
+    {
+        shift_sign=temp&0x1;
+        uint32_t val=hign_sign;
+        hign_sign=(hign>>1)|hign_sign;
+        temp=temp>>1;
+    }
+    if(hign_sign>0)     // note we need return his sign
+    {
+        temp=temp|hign_sign;
+    }
+    cpu.eflags.CF=(shift_sign!=0);
+    
+    if(data_size==8)
+    {
+        temp=temp&0xff;
+        result=result&0xffffff00;
+    }
+    else if(data_size==16)
+    {
+        temp=temp&0xffff;
+        result=result&0xffff0000;
+    }
+    else if(data_size==32)
+    {
+        result=result&0x0;
+    }
+
+    set_flags_of_shift_Functions(temp);
+
+    result=result|temp;
+    
+   return result;
 }
 
 uint32_t alu_sal(uint32_t src, uint32_t dest, size_t data_size) {
-	printf("\e[0;31mPlease implement me at alu.c\e[0m\n");
-	assert(0);
-	return 0;
+	return alu_shl(src,dest,data_size);
 }
 
 
