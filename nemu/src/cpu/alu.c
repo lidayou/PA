@@ -93,6 +93,7 @@ uint32_t alu_adc(uint32_t src, uint32_t dest) {
     set_ZF(result);
     set_SF(result);
     set_OF_add(result,src,dest+1);
+    return result;
 }
 
 
