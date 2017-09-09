@@ -69,13 +69,12 @@ uint32_t alu_add(uint32_t src, uint32_t dest) {
     return result;
 }
 
-/*
 void set_CF_adc(uint32_t result,uint32_t src,uint32_t dest)
 {
     unsigned temp=result<src||result<(dest+1);
     cpu.eflags.CF=temp^1;
 }
-*/
+
 
 /*
 void set_OF_adc(uint32_t result,uint32_t src,uint32_t dest)
@@ -90,7 +89,7 @@ void set_OF_adc(uint32_t result,uint32_t src,uint32_t dest)
 uint32_t alu_adc(uint32_t src, uint32_t dest) {
     //represent add with cin
 	uint32_t result=src+dest+1;
-    set_CF_add(result,src,dest+1);
+    set_CF_adc(result,src,dest);
     set_PF(result);
     set_ZF(result);
     set_SF(result);
