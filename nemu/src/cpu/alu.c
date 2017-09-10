@@ -204,27 +204,38 @@ uint64_t alu_mul(uint32_t src, uint32_t dest, size_t data_size) {
 
 int64_t alu_imul(int32_t src, int32_t dest, size_t data_size) {
 	int64_t result=(int32_t)src*(int32_t)dest;
-//    uint32_t sign_result_lowHalf=(result>>(data_size-1))&0x1;
+    uint32_t sign_result_lowHalf=(result>>(data_size-1))&0x1;
     
+    // imul 's eflags don't stand a test here
+    // so the secrity is ....
+      
 	return result;
 }
 
 uint32_t alu_div(uint64_t src, uint64_t dest, size_t data_size) {
+    if(src==0)
+        return 0;   // have a problem
 	uint32_t result= dest/src;
 	return result;
 }
 
 int32_t alu_idiv(int64_t src, int64_t dest, size_t data_size) {
+    if(src==0) 
+        return 0;   // have a problem
 	uint32_t result=dest/src;
 	return result;
 }
 
 uint32_t alu_mod(uint64_t src, uint64_t dest) {
+    if(src==0)
+        return 0:    // have a problem
     uint32_t result=dest%src;
 	return result;
 }
 
 int32_t alu_imod(int64_t src, int64_t dest) {
+    if(src==0)
+        return 0:      //have a problem
 	int32_t result=dest%src;
 	return result;
 }
@@ -291,8 +302,6 @@ uint32_t alu_shl(uint32_t src, uint32_t dest, size_t data_size) {
         temp=temp&0xff;
     else if(data_size==16)
         temp=temp&0xffff;
-    
-
     uint32_t shift_sign=0;
     for(uint32_t i=0;i<src;i++)
     {
