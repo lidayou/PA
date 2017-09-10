@@ -543,50 +543,95 @@ void alu_test_shl() {
 	int na = sizeof(inputa) / sizeof(uint32_t);
 	int nb = sizeof(inputb) / sizeof(uint32_t);
 	int i, j;
-	for(i = 0 ; i < na ; i++) {
-		for(j = 0 ; j < nb ; j++) {
-			a = inputa[i];
-			b = inputb[j];
-			res = alu_shl(b, a, 32);
+	uint32_t data_sizes[] = {8, 16, 32};
+	int n;
+	for(n = 0 ; n < 3 ; n++) {
+		for(i = 0 ; i < na ; i++) {
+			for(j = 0 ; j < nb ; j++) {
+				a = inputa[i];
+				b = inputb[j];
+				res = alu_shl(b, a, data_sizes[n]);
 
-			asm (	"shl %%cl, %%eax;"
-				"pushf;"
-				"popl %%edx;"
-				: "=a" (res_asm), "=d" (res_eflags)
-				: "a" (a), "c" (b));
+				switch(n){
+					case 0: 
+						asm (	"shlb %%cl, %%al;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 1: 
+						asm (	"shlw %%cl, %%ax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 2:
+						asm (	"shll %%cl, %%eax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					default: assert(0);
+				}
+
+
 				test_eflags.val = res_eflags;
 	
-			//printf("oracle eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", test_eflags.CF, test_eflags.PF, test_eflags.ZF, test_eflags.SF, test_eflags.OF);
-			//printf("nemu   eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", cpu.eflags.CF, cpu.eflags.PF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
-			//printf("a = %d, b= %d, res = %d, res_asm = %d\n", a, b, res, res_asm);
+				//printf("oracle eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", test_eflags.CF, test_eflags.PF, test_eflags.ZF, test_eflags.SF, test_eflags.OF);
+				//printf("nemu   eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", cpu.eflags.CF, cpu.eflags.PF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
+				//printf("a = %d, b= %d, res = %d, res_asm = %d\n", a, b, res, res_asm);
 
-			assert(res == res_asm);
-			assert(cpu.eflags.CF == test_eflags.CF);
-			assert(cpu.eflags.PF == test_eflags.PF);
-			assert(cpu.eflags.SF == test_eflags.SF);
-			assert(cpu.eflags.ZF == test_eflags.ZF);
+				assert(res == res_asm);
+				assert(cpu.eflags.CF == test_eflags.CF);
+				assert(cpu.eflags.PF == test_eflags.PF);
+				assert(cpu.eflags.SF == test_eflags.SF);
+				assert(cpu.eflags.ZF == test_eflags.ZF);
+			}
 		}
-	}
 
-	srand(time(0));
-	for(i = 0 ; i < 1000000 ; i++) {
-		for(j = 0 ; j < nb ; j++) {
-			a = rand();
-			b = inputb[j];
-			res = alu_shl(b, a, 32);
+		srand(time(0));
+		for(i = 0 ; i < 1000000 ; i++) {
+			for(j = 0 ; j < nb ; j++) {
+				a = rand();
+				b = inputb[j];
+				res = alu_shl(b, a, data_sizes[n]);
 
-			asm (	"shl %%cl, %%eax;"
-				"pushf;"
-				"popl %%edx;"
-				: "=a" (res_asm), "=d" (res_eflags)
-				: "a" (a), "c" (b));
+				switch(n){
+					case 0: 
+						asm (	"shlb %%cl, %%al;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 1: 
+						asm (	"shlw %%cl, %%ax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 2:
+						asm (	"shll %%cl, %%eax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					default: assert(0);
+				}
+				
 				test_eflags.val = res_eflags;
 	
-			assert(res == res_asm);
-			assert(cpu.eflags.CF == test_eflags.CF);
-			assert(cpu.eflags.PF == test_eflags.PF);
-			assert(cpu.eflags.SF == test_eflags.SF);
-			assert(cpu.eflags.ZF == test_eflags.ZF);
+				assert(res == res_asm);
+				assert(cpu.eflags.CF == test_eflags.CF);
+				assert(cpu.eflags.PF == test_eflags.PF);
+				assert(cpu.eflags.SF == test_eflags.SF);
+				assert(cpu.eflags.ZF == test_eflags.ZF);
+			}
 		}
 	}
 
@@ -601,53 +646,96 @@ void alu_test_shr() {
 	int na = sizeof(inputa) / sizeof(uint32_t);
 	int nb = sizeof(inputb) / sizeof(uint32_t);
 	int i, j;
-	for(i = 0 ; i < na ; i++) {
-		for(j = 0 ; j < nb ; j++) {
-			a = inputa[i];
-			b = inputb[j];
-			res = alu_shr(b, a, 32);
+	uint32_t data_sizes[] = {8, 16, 32};
+	int n;
+	for(n = 0 ; n < 3 ; n++) {
+		for(i = 0 ; i < na ; i++) {
+			for(j = 0 ; j < nb ; j++) {
+				a = inputa[i];
+				b = inputb[j];
+				res = alu_shr(b, a, data_sizes[n]);
 
-			asm (	"shr %%cl, %%eax;"
-				"pushf;"
-				"popl %%edx;"
-				: "=a" (res_asm), "=d" (res_eflags)
-				: "a" (a), "c" (b));
+				switch(n){
+					case 0: 
+						asm (	"shrb %%cl, %%al;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 1: 
+						asm (	"shrw %%cl, %%ax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 2:
+						asm (	"shrl %%cl, %%eax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					default: assert(0);
+				}
+				
 				test_eflags.val = res_eflags;
 	
 			//printf("oracle eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", test_eflags.CF, test_eflags.PF, test_eflags.ZF, test_eflags.SF, test_eflags.OF);
 			//printf("nemu   eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", cpu.eflags.CF, cpu.eflags.PF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
-			//printf("a = %d, b= %d, res = %d, res_asm = %d\n", a, b, res, res_asm);
+			//printf("a = %d, b= %d, res = %d, res_asm = %d, data_size = %d\n", a, b, res, res_asm, data_sizes[n]);
 
-			assert(res == res_asm);
-			assert(cpu.eflags.CF == test_eflags.CF);
-			assert(cpu.eflags.PF == test_eflags.PF);
-			assert(cpu.eflags.SF == test_eflags.SF);
-			assert(cpu.eflags.ZF == test_eflags.ZF);
+				assert(res == res_asm);
+				assert(cpu.eflags.CF == test_eflags.CF);
+				assert(cpu.eflags.PF == test_eflags.PF);
+				assert(cpu.eflags.SF == test_eflags.SF);
+				assert(cpu.eflags.ZF == test_eflags.ZF);
+			}
 		}
-	}
 
-	srand(time(0));
-	for(i = 0 ; i < 1000000 ; i++) {
-		for(j = 0 ; j < nb ; j++) {
-			a = rand();
-			b = inputb[j];
-			res = alu_shr(b, a, 32);
+		srand(time(0));
+		for(i = 0 ; i < 1000000 ; i++) {
+			for(j = 0 ; j < nb ; j++) {
+				a = rand();
+				b = inputb[j];
+				res = alu_shr(b, a, data_sizes[n]);
 
-			asm (	"shr %%cl, %%eax;"
-				"pushf;"
-				"popl %%edx;"
-				: "=a" (res_asm), "=d" (res_eflags)
-				: "a" (a), "c" (b));
+				switch(n){
+					case 0: 
+						asm (	"shrb %%cl, %%al;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 1: 
+						asm (	"shrw %%cl, %%ax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 2:
+						asm (	"shrl %%cl, %%eax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					default: assert(0);
+				}
+				
 				test_eflags.val = res_eflags;
 	
-			assert(res == res_asm);
-			assert(cpu.eflags.CF == test_eflags.CF);
-			assert(cpu.eflags.PF == test_eflags.PF);
-			assert(cpu.eflags.SF == test_eflags.SF);
-			assert(cpu.eflags.ZF == test_eflags.ZF);
+				assert(res == res_asm);
+				assert(cpu.eflags.CF == test_eflags.CF);
+				assert(cpu.eflags.PF == test_eflags.PF);
+				assert(cpu.eflags.SF == test_eflags.SF);
+				assert(cpu.eflags.ZF == test_eflags.ZF);
+			}
 		}
 	}
-
 	printf("alu_test_shr()  \e[0;32mpass\e[0m\n");
 }
 
@@ -659,50 +747,94 @@ void alu_test_sal() {
 	int na = sizeof(inputa) / sizeof(uint32_t);
 	int nb = sizeof(inputb) / sizeof(uint32_t);
 	int i, j;
-	for(i = 0 ; i < na ; i++) {
-		for(j = 0 ; j < nb ; j++) {
-			a = inputa[i];
-			b = inputb[j];
-			res = alu_sal(b, a, 32);
+	uint32_t data_sizes[] = {8, 16, 32};
+	int n;
+	for(n = 0 ; n < 3 ; n++) {
+		for(i = 0 ; i < na ; i++) {
+			for(j = 0 ; j < nb ; j++) {
+				a = inputa[i];
+				b = inputb[j];
+				res = alu_sal(b, a, data_sizes[n]);
 
-			asm (	"sal %%cl, %%eax;"
-				"pushf;"
-				"popl %%edx;"
-				: "=a" (res_asm), "=d" (res_eflags)
-				: "a" (a), "c" (b));
+				switch(n){
+					case 0: 
+						asm (	"salb %%cl, %%al;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 1: 
+						asm (	"salw %%cl, %%ax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 2:
+						asm (	"sall %%cl, %%eax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					default: assert(0);
+				}
+
 				test_eflags.val = res_eflags;
 	
-			//printf("oracle eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", test_eflags.CF, test_eflags.PF, test_eflags.ZF, test_eflags.SF, test_eflags.OF);
-			//printf("nemu   eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", cpu.eflags.CF, cpu.eflags.PF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
-			//printf("a = %d, b= %d, res = %d, res_asm = %d\n", a, b, res, res_asm);
+				//printf("oracle eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", test_eflags.CF, test_eflags.PF, test_eflags.ZF, test_eflags.SF, test_eflags.OF);
+				//printf("nemu   eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", cpu.eflags.CF, cpu.eflags.PF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
+				//printf("a = %d, b= %d, res = %d, res_asm = %d\n", a, b, res, res_asm);
 
-			assert(res == res_asm);
-			assert(cpu.eflags.CF == test_eflags.CF);
-			assert(cpu.eflags.PF == test_eflags.PF);
-			assert(cpu.eflags.SF == test_eflags.SF);
-			assert(cpu.eflags.ZF == test_eflags.ZF);
+				assert(res == res_asm);
+				assert(cpu.eflags.CF == test_eflags.CF);
+				assert(cpu.eflags.PF == test_eflags.PF);
+				assert(cpu.eflags.SF == test_eflags.SF);
+				assert(cpu.eflags.ZF == test_eflags.ZF);
+			}
 		}
-	}
 
-	srand(time(0));
-	for(i = 0 ; i < 1000000 ; i++) {
-		for(j = 0 ; j < nb ; j++) {
-			a = rand();
-			b = inputb[j];
-			res = alu_sal(b, a, 32);
+		srand(time(0));
+		for(i = 0 ; i < 1000000 ; i++) {
+			for(j = 0 ; j < nb ; j++) {
+				a = rand();
+				b = inputb[j];
+				res = alu_sal(b, a, data_sizes[n]);
 
-			asm (	"sal %%cl, %%eax;"
-				"pushf;"
-				"popl %%edx;"
-				: "=a" (res_asm), "=d" (res_eflags)
-				: "a" (a), "c" (b));
+				switch(n){
+					case 0: 
+						asm (	"salb %%cl, %%al;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 1: 
+						asm (	"salw %%cl, %%ax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 2:
+						asm (	"sall %%cl, %%eax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					default: assert(0);
+				}
+
 				test_eflags.val = res_eflags;
 	
-			assert(res == res_asm);
-			assert(cpu.eflags.CF == test_eflags.CF);
-			assert(cpu.eflags.PF == test_eflags.PF);
-			assert(cpu.eflags.SF == test_eflags.SF);
-			assert(cpu.eflags.ZF == test_eflags.ZF);
+				assert(res == res_asm);
+				assert(cpu.eflags.CF == test_eflags.CF);
+				assert(cpu.eflags.PF == test_eflags.PF);
+				assert(cpu.eflags.SF == test_eflags.SF);
+				assert(cpu.eflags.ZF == test_eflags.ZF);
+			}
 		}
 	}
 
@@ -717,53 +849,96 @@ void alu_test_sar() {
 	int na = sizeof(inputa) / sizeof(uint32_t);
 	int nb = sizeof(inputb) / sizeof(uint32_t);
 	int i, j;
-	for(i = 0 ; i < na ; i++) {
-		for(j = 0 ; j < nb ; j++) {
-			a = inputa[i];
-			b = inputb[j];
-			res = alu_sar(b, a, 32);
+	uint32_t data_sizes[] = {8, 16, 32};
+	int n;
+	for(n = 0 ; n < 3 ; n++) {
+		for(i = 0 ; i < na ; i++) {
+			for(j = 0 ; j < nb ; j++) {
+				a = inputa[i];
+				b = inputb[j];
+				res = alu_sar(b, a, data_sizes[n]);
 
-			asm (	"sar %%cl, %%eax;"
-				"pushf;"
-				"popl %%edx;"
-				: "=a" (res_asm), "=d" (res_eflags)
-				: "a" (a), "c" (b));
+				switch(n){
+					case 0: 
+						asm (	"sarb %%cl, %%al;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 1: 
+						asm (	"sarw %%cl, %%ax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 2:
+						asm (	"sarl %%cl, %%eax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					default: assert(0);
+				}
+
 				test_eflags.val = res_eflags;
 	
 			//printf("oracle eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", test_eflags.CF, test_eflags.PF, test_eflags.ZF, test_eflags.SF, test_eflags.OF);
 			//printf("nemu   eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", cpu.eflags.CF, cpu.eflags.PF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
 			//printf("a = %d, b= %d, res = %d, res_asm = %d\n", a, b, res, res_asm);
 
-			assert(res == res_asm);
-			assert(cpu.eflags.CF == test_eflags.CF);
-			assert(cpu.eflags.PF == test_eflags.PF);
-			assert(cpu.eflags.SF == test_eflags.SF);
-			assert(cpu.eflags.ZF == test_eflags.ZF);
+				assert(res == res_asm);
+				assert(cpu.eflags.CF == test_eflags.CF);
+				assert(cpu.eflags.PF == test_eflags.PF);
+				assert(cpu.eflags.SF == test_eflags.SF);
+				assert(cpu.eflags.ZF == test_eflags.ZF);
+			}
 		}
-	}
 
-	srand(time(0));
-	for(i = 0 ; i < 1000000 ; i++) {
-		for(j = 0 ; j < nb ; j++) {
-			a = rand();
-			b = inputb[j];
-			res = alu_sar(b, a, 32);
+		srand(time(0));
+		for(i = 0 ; i < 1000000 ; i++) {
+			for(j = 0 ; j < nb ; j++) {
+				a = rand();
+				b = inputb[j];
+				res = alu_sar(b, a, data_sizes[n]);
 
-			asm (	"sar %%cl, %%eax;"
-				"pushf;"
-				"popl %%edx;"
-				: "=a" (res_asm), "=d" (res_eflags)
-				: "a" (a), "c" (b));
+				switch(n){
+					case 0: 
+						asm (	"sarb %%cl, %%al;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 1: 
+						asm (	"sarw %%cl, %%ax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					case 2:
+						asm (	"sarl %%cl, %%eax;"
+							"pushf;"
+							"popl %%edx;"
+							: "=a" (res_asm), "=d" (res_eflags)
+							: "a" (a), "c" (b));
+						break;
+					default: assert(0);
+				}
+
 				test_eflags.val = res_eflags;
 
-			assert(res == res_asm);
-			assert(cpu.eflags.CF == test_eflags.CF);
-			assert(cpu.eflags.PF == test_eflags.PF);
-			assert(cpu.eflags.SF == test_eflags.SF);
-			assert(cpu.eflags.ZF == test_eflags.ZF);
+				assert(res == res_asm);
+				assert(cpu.eflags.CF == test_eflags.CF);
+				assert(cpu.eflags.PF == test_eflags.PF);
+				assert(cpu.eflags.SF == test_eflags.SF);
+				assert(cpu.eflags.ZF == test_eflags.ZF);
+			}
 		}
 	}
-
 	printf("alu_test_sar()  \e[0;32mpass\e[0m\n");
 }
 
