@@ -197,7 +197,7 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
 // idiv         -   -  -  -  -              "-"represents undefined ,"M"represents determined by op 
 uint64_t alu_mul(uint32_t src, uint32_t dest, size_t data_size) {
 	uint64_t result=(uint64_t)src*(uint64_t)dest;
-    uint64_t temp=result>>32;
+    uint64_t temp=result>>data_size;
     cpu.eflags.OF=cpu.eflags.CF=(temp!=0);
     return result;
 }
