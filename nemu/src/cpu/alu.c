@@ -317,10 +317,10 @@ uint32_t alu_shl(uint32_t src, uint32_t dest, size_t data_size) {
         result=result&0x0;
     }
 
-    set_flags_of_shift_Functions(temp);
 
     result=result|temp;
     
+    set_flags_of_shift_Functions(result);
    return result;
 }
 
@@ -361,11 +361,9 @@ uint32_t alu_shr(uint32_t src, uint32_t dest, size_t data_size) {
         result=result&0x0;
     }
 
-    set_flags_of_shift_Functions(temp);
-
     result=result|temp;
-    
-   return result;
+    set_flags_of_shift_Functions(result);    
+    return result;
 }
 
 uint32_t alu_sar(uint32_t src, uint32_t dest, size_t data_size) {
@@ -415,11 +413,11 @@ uint32_t alu_sar(uint32_t src, uint32_t dest, size_t data_size) {
         result=result&0x0;
     }
 
-    set_flags_of_shift_Functions(temp);
 
     result=result|temp;
     
-   return result;
+    set_flags_of_shift_Functions(result);
+    return result;
 }
 
 uint32_t alu_sal(uint32_t src, uint32_t dest, size_t data_size) {
