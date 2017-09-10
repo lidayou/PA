@@ -258,11 +258,16 @@ uint32_t alu_or(uint32_t src, uint32_t dest) {
 	return result;
 }
 
-void set_flags_of_shift_Functions(uint32_t result)
+void set_flags_of_shift_Functions(uint32_t result,size_t data_size)
 {
     set_PF(result);
     set_ZF(result);
-    set_SF(result);
+    if(data_size==8)
+        cpu.eflags.SF=(result>>7)&0x1;
+    else if(data_size==16)
+        cpu.eflags.SF=(result>>15)&0x1;
+    else if(data_size==32)
+        cpu.eflags.SF=(result>>31)&0x1;
 }
 
 /*
@@ -319,7 +324,7 @@ uint32_t alu_shl(uint32_t src, uint32_t dest, size_t data_size) {
 
 
     result=result|temp;
-    set_flags_of_shift_Functions(result);    
+    set_flags_of_shift_Functions(result,data_size);    
     return result;
 }
 
@@ -361,7 +366,7 @@ uint32_t alu_shr(uint32_t src, uint32_t dest, size_t data_size) {
     }
 
     result=result|temp;
-    set_flags_of_shift_Functions(result);
+    set_flags_of_shift_Functions(result,data_size);
     return result;
 }
 
@@ -414,7 +419,7 @@ uint32_t alu_sar(uint32_t src, uint32_t dest, size_t data_size) {
 
 
     result=result|temp;
-    set_flags_of_shift_Functions(result);
+    set_flags_of_shift_Functions(result,data_size);
     return result;
 }
 
