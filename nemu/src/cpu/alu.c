@@ -216,7 +216,7 @@ uint32_t alu_div(uint64_t src, uint64_t dest, size_t data_size) {
 
 int32_t alu_idiv(int64_t src, int64_t dest, size_t data_size) {
 	uint32_t result=dest/src;
-	return ;
+	return result;
 }
 
 uint32_t alu_mod(uint64_t src, uint64_t dest) {
