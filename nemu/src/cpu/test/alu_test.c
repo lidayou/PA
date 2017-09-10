@@ -538,8 +538,8 @@ void alu_test_xor() {
 void alu_test_shl() {
 	uint32_t res, a, b, res_asm, res_eflags;
 	TEST_EFLAGS test_eflags;
-	uint32_t inputb[] = {1, 2, 3, 4,7};
-	uint32_t inputa[] = {0xffffffff, 0x0, 0x10101010,0x1};
+	uint32_t inputb[] = {1, 2, 3, 4};
+	uint32_t inputa[] = {0xffffffff, 0x0, 0x10101010};
 	int na = sizeof(inputa) / sizeof(uint32_t);
 	int nb = sizeof(inputb) / sizeof(uint32_t);
 	int i, j;

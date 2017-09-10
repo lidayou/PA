@@ -320,7 +320,7 @@ uint32_t alu_shl(uint32_t src, uint32_t dest, size_t data_size) {
 
     result=result|temp;
     set_flags_of_shift_Functions(result);    
-   return result;
+    return result;
 }
 
 uint32_t alu_shr(uint32_t src, uint32_t dest, size_t data_size) {
