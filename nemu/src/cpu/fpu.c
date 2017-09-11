@@ -154,6 +154,10 @@ uint32_t internal_float_add(uint32_t b, uint32_t a) {
 
 	/* TODO: shift = ? */
     shift=(uint32_t)fb.exponent-(uint32_t)fa.exponent;
+    if(fa.exponent==0)
+    {
+        shift--;
+    }
     /*
     if(sig_b==0xc35000)
     {
