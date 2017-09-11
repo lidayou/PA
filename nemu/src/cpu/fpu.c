@@ -147,11 +147,21 @@ uint32_t internal_float_add(uint32_t b, uint32_t a) {
 	if(fa.exponent>fb.exponent)
     {
         shift=fa.exponent-fb.exponent;
+        uint32_t temp=fa.sign;
+        fa.sign=fb.sign;
+        fb.sign=temp;
+        temp=fa.exponent;
+        fa.exponent=fb.exponent;
+        fb.exponent=temp;
+        temp=sig_b;
+        sig_b=sig_a;
+        sig_a=temp;
     }
     else if(fa.exponent<fb.exponent)
     {
         shift=fb.exponent-fa.exponent;
     }
+
 	sig_a = (sig_a << 3); // guard, round, sticky
 	sig_b = (sig_b << 3);
 
