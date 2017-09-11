@@ -538,8 +538,8 @@ void alu_test_xor() {
 void alu_test_shl() {
 	uint32_t res, a, b, res_asm, res_eflags;
 	TEST_EFLAGS test_eflags;
-	uint32_t inputb[] = {1, 2, 3, 4,7};
-	uint32_t inputa[] = {0xffffffff, 0x0, 0x10101010,0x1};
+	uint32_t inputb[] = {1, 2, 3, 4};
+	uint32_t inputa[] = {0xffffffff, 0x0, 0x10101010};
 	int na = sizeof(inputa) / sizeof(uint32_t);
 	int nb = sizeof(inputb) / sizeof(uint32_t);
 	int i, j;
@@ -1260,13 +1260,12 @@ void alu_test_div() {
 		b = rand();
 		if(b == 0) continue;
 		aa.val = a;
-		quo = alu_idiv(b, a, 32);
-		rem = alu_imod(b, a);
-		asm ("idivl %%ecx" : "=a" (quo_asm), "=d" (rem_asm) : "a" (aa.low), "d" (aa.high), "c" ((uint32_t)b));
+		quo = alu_div(b, a, 32);
+		rem = alu_mod(b, a);
+		asm ("divl %%ecx" : "=a" (quo_asm), "=d" (rem_asm) : "a" (aa.low), "d" (aa.high), "c" ((uint32_t)b));
 		assert(quo == quo_asm);
 		assert(rem == rem_asm);
 	}
-
 	printf("alu_test_div()  \e[0;32mpass\e[0m\n");
 }
 
