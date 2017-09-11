@@ -70,7 +70,7 @@ inline uint32_t internal_normalize(uint32_t sign, int32_t exp, uint64_t sig_grs)
 
 	if(!overflow) {
 		/* TODO: round up and remove the GRS bits */
-		uint32_t grs= sig_grs&0x7;
+		uint32_t grs= sig_grs&0x07;
         sig_grs=sig_grs>>3;
         uint32_t low_digit=sig_grs&0x1;
         if(grs>4||(grs==4&&low_digit==1))
@@ -79,11 +79,19 @@ inline uint32_t internal_normalize(uint32_t sign, int32_t exp, uint64_t sig_grs)
         {
             sig_grs=sig_grs>>1;
             exp++;
-            if(exp)
+            if(exp>=0xff)
             {
                 exp=exp|0xff;
                 sig_grs=sig_grs&0x0;
             }
+            else
+            {
+                sig_grs=sig_grs&0x7fffff;
+            }
+        }
+        else
+        {
+            sig_grs=sig_grs&0x7fffff;
         }
 	}
 
@@ -144,23 +152,7 @@ uint32_t internal_float_add(uint32_t b, uint32_t a) {
 	uint32_t shift = 0;
 
 	/* TODO: shift = ? */
-	if(fa.exponent>fb.exponent)
-    {
-        shift=fa.exponent-fb.exponent;
-        uint32_t temp=fa.sign;
-        fa.sign=fb.sign;
-        fb.sign=temp;
-        temp=fa.exponent;
-        fa.exponent=fb.exponent;
-        fb.exponent=temp;
-        temp=sig_b;
-        sig_b=sig_a;
-        sig_a=temp;
-    }
-    else if(fa.exponent<fb.exponent)
-    {
-        shift=fb.exponent-fa.exponent;
-    }
+    shift=fb.exponent-fa.exponent;
 
 	sig_a = (sig_a << 3); // guard, round, sticky
 	sig_b = (sig_b << 3);
