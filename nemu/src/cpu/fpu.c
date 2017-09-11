@@ -70,11 +70,12 @@ inline uint32_t internal_normalize(uint32_t sign, int32_t exp, uint64_t sig_grs)
 
 	if(!overflow) {
 		/* TODO: round up and remove the GRS bits */
-		uint32_t grs= sig_grs&0x07;
-        sig_grs=sig_grs>>3;
+		uint32_t grs= sig_grs&0x03;
+        sig_grs=sig_grs>>2;
         uint32_t low_digit=sig_grs&0x1;
-        if(grs>4||(grs==4&&low_digit==1))
+        if(grs>2||(grs==2&&low_digit==1))
             sig_grs+=1;
+        sig_grs=sig_grc>>1;
         if(sig_grs>>24==1)
         {
             sig_grs=sig_grs>>1;
@@ -153,7 +154,7 @@ uint32_t internal_float_add(uint32_t b, uint32_t a) {
 
 	/* TODO: shift = ? */
     shift=(uint32_t)fb.exponent-(uint32_t)fa.exponent;
-    
+    /*
     if(sig_b==0xc35000)
     {
         printf("b---------------->ok\n");
@@ -166,6 +167,7 @@ uint32_t internal_float_add(uint32_t b, uint32_t a) {
     {
         printf("------------------------------------->ok\n");
     }
+    */
 	sig_a = (sig_a << 3); // guard, round, sticky
 	sig_b = (sig_b << 3);
 
