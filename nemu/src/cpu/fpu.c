@@ -152,8 +152,16 @@ uint32_t internal_float_add(uint32_t b, uint32_t a) {
 	uint32_t shift = 0;
 
 	/* TODO: shift = ? */
-    shift=fb.exponent-fa.exponent;
+    shift=(uint32_t)fb.exponent-(uint32_t)fa.exponent;
     
+    if(sig_b==0xc35000)
+    {
+        printf("b---------------->ok\n");
+    }
+    if(sig_a==0x800000)
+    {
+        printf("a---------------->ok\n");
+    }
     if(shift==19)
     {
         printf("------------------------------------->ok\n");
