@@ -75,7 +75,7 @@ inline uint32_t internal_normalize(uint32_t sign, int32_t exp, uint64_t sig_grs)
         uint32_t low_digit=sig_grs&0x1;
         if(grs>2||(grs==2&&low_digit==1))
             sig_grs+=1;
-        sig_grs=sig_grc>>1;
+        sig_grs=sig_grs>>1;
         if(sig_grs>>24==1)
         {
             sig_grs=sig_grs>>1;
