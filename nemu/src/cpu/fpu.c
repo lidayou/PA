@@ -153,6 +153,9 @@ uint32_t internal_float_add(uint32_t b, uint32_t a) {
 
 	/* TODO: shift = ? */
     shift=fb.exponent-fa.exponent;
+    
+    if(shift==19)
+        printf("------------------------------------->ok\n")
 
 	sig_a = (sig_a << 3); // guard, round, sticky
 	sig_b = (sig_b << 3);
