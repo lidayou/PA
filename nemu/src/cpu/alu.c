@@ -145,9 +145,13 @@ void set_OF_sub(uint32_t result,uint32_t src,uint32_t dest)
     uint32_t sign_src=src>>31;
     uint32_t sign_result=result>>31;
     if(sign_dest!=sign_src&&sign_dest!=sign_result)
+    {
         cpu.eflags.OF=1;
+    }
     else
+    {
         cpu.eflags.OF=0;
+    }
 }
 
 uint32_t alu_sub(uint32_t src, uint32_t dest)
@@ -171,7 +175,12 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
     {
        // set_CF_sub(result,src,dest);
         set_CF_sub(dest-1,1,dest);
-        set_OF_sub(dest-1,1,dest); 
+        set_OF_sub(dest-1,1,dest);
+        if(dest==0x80000000&&src==-3)
+        {
+            printf("yes----------->%x\n",dest-1);
+            printf("%d\n",cpu.eflags.OF);
+        }
       //  uint32_t temp=result;
         result=result-1;
         if(cpu.eflags.CF!=1)
