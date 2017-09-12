@@ -235,7 +235,7 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
             }
             else 
             {
-                cpu.eflags.OF=0;
+                cpu.eflags.OF=1;
             }
             
         }
