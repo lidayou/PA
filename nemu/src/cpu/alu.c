@@ -168,13 +168,15 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
     //divide the sub-work
     if(cpu.eflags.CF==1)
     {
-        set_CF_sub(result,src,dest);
+       // set_CF_sub(result,src,dest);
+        set_CF_sub(dest-1,1,dest);
         set_OF_sub(dest-1,1,dest); 
-        uint32_t temp=result;
+      //  uint32_t temp=result;
         result=result-1;
         if(cpu.eflags.CF!=1)
         {
-            set_CF_sub(result,1,temp);
+            set_CF_sub(result,src,dest-1);
+      //      set_CF_sub(result,1,temp);
 //            set_OF_sub(result,1,temp);
         }
         if(cpu.eflags.OF!=1)
