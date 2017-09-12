@@ -212,6 +212,7 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
            cpu.eflags.OF=OF_temp;
        }
         */
+        /*
         uint32_t my_temp=dest-1;
         if(sign(my_temp)!=sign(src)&&sign(result)!=sign(my_temp))
         {
@@ -221,7 +222,24 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
         {
             cpu.eflags.OF=0;
         }
-        
+        */
+        if(sign(dest)==sign(src))
+        {
+            cpu.eflags.OF=0;
+        }
+        else
+        {
+            if(dest!=0x80000000&&src!=0x80000000)
+            {
+                set_OF_sub(result,src,dest-1);
+            }
+            else 
+            {
+                cpu.eflags.OF=0;
+            }
+            
+        }
+
     }
     else
     {
