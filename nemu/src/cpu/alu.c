@@ -194,7 +194,16 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
        //     set_OF_sub(result,1,dest-src);
        //     printf("no here----------------\n");
        // }
+       int32_t OF_temp=cpu.eflags.OF;
        set_OF_sub(result,src,dest-1);
+       int32_t v1=cpu.eflags.OF;
+       set_OF_sub(result,1,dest-src);
+       int32_t v2=cpu.eflags.OF;
+       if(!(v1==1&&v2==1))
+       {
+           cpu.eflags.OF=OF_temp;
+       }
+
     }
     else
     {
