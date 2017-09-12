@@ -304,11 +304,12 @@ void alu_test_sbb() {
 				: "=a" (res_asm), "=d" (res_eflags)
 				: "a" (a), "c" (b));
 				test_eflags.val = res_eflags;
-	
-			//printf("oracle eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", test_eflags.CF, test_eflags.PF, test_eflags.ZF, test_eflags.SF, test_eflags.OF);
-			//printf("nemu   eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", cpu.eflags.CF, cpu.eflags.PF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
-			//printf("a = %d, b= %d, res = %d, res_asm = %d\n", a, b, res, res_asm);
-
+	        if(cpu.eflags.OF!=test_eflags.OF)
+            {
+			printf("oracle eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", test_eflags.CF, test_eflags.PF, test_eflags.ZF, test_eflags.SF, test_eflags.OF);
+			printf("nemu   eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", cpu.eflags.CF, cpu.eflags.PF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
+			printf("a = %d, b= %d, res = %d, res_asm = %d\n", a, b, res, res_asm);
+            }
 			assert(res == res_asm);
 			assert(cpu.eflags.CF == test_eflags.CF);
 			assert(cpu.eflags.PF == test_eflags.PF);
