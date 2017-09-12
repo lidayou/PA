@@ -175,7 +175,7 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
     {
        // set_CF_sub(result,src,dest);
         set_CF_sub(dest-src,src,dest);
-        set_OF_sub(dest-src,src,dest);
+        //set_OF_sub(dest-src,src,dest);
         if(dest==0x80000000&&src==-3)
         {
             printf("yes----------->%x\n",dest-1);
@@ -189,11 +189,12 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
       //      set_CF_sub(result,1,temp);
 //            set_OF_sub(result,1,temp);
         }
-        if(cpu.eflags.OF!=1)
-        {
-            set_OF_sub(result,1,dest-src);
-            printf("no here----------------\n");
-        }
+       // if(cpu.eflags.OF!=1)
+       // {
+       //     set_OF_sub(result,1,dest-src);
+       //     printf("no here----------------\n");
+       // }
+       set_OF_sub(result,src,dest-1);
     }
     else
     {
