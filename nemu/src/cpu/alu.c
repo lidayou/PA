@@ -227,6 +227,10 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
         {
             cpu.eflags.OF=0;
         }
+        else if(dest==0x0&&src==0x80000000)
+        {
+            cpu.eflag.OF=0;
+        }
         else
         {
             if(dest!=0x80000000&&src!=0x80000000)
