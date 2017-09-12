@@ -175,11 +175,11 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
     if(cpu.eflags.CF==1)
     {
         
-         set_OF_add(result,~src+1,dest);
-         if(cpu.eflags.OF!=0)
-         {
-             set_OF_add(result-1,~0x1+1,result);
-         }
+       //  set_OF_add(result,~src+1,dest);
+       //  if(cpu.eflags.OF!=0)
+       //  {
+       //      set_OF_add(result-1,~0x1+1,result);
+       //  }
        // set_CF_sub(result,src,dest);
         set_CF_sub(dest-src,src,dest);
         //set_OF_sub(dest-src,src,dest);
@@ -212,6 +212,15 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
            cpu.eflags.OF=OF_temp;
        }
         */
+        uint32_t my_temp=dest-1;
+        if(sign(my_temp)!=sign(src)&&sign(result)!=sign(src))
+        {
+            cpu.eflags.OF=1;
+        }
+        else
+        {
+            cpu.eflags.OF=0;
+        }
         
     }
     else
