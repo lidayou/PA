@@ -277,7 +277,7 @@ uint32_t internal_float_mul(uint32_t b, uint32_t a) {
     uint32_t fa_exp=fa.exponent-127;
     uint32_t fb_exp=fb.exponent-127;
     
-    exp_res=fa_exp+fb_exp-127-23;
+    exp_res=fa_exp+fb_exp-127-20;
 
     sig_res=sig_res<<3;
 
