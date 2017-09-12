@@ -169,7 +169,7 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
 	//if CF is 1 , result-1
     uint32_t result=dest-src;
     
-//    set_OF_add(result,~src+cpu.eflags.CF,dest);
+   // set_OF_add(result,~src+1+cpu.eflags.CF,dest);
     //divide the sub-work
     if(cpu.eflags.CF==1)
     {
@@ -194,7 +194,8 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
        //     set_OF_sub(result,1,dest-src);
        //     printf("no here----------------\n");
        // }
-       int32_t OF_temp=cpu.eflags.OF;
+        
+        int32_t OF_temp=cpu.eflags.OF;
        set_OF_sub(result,src,dest-1);
        int32_t v1=cpu.eflags.OF;
        set_OF_sub(result,1,dest-src);
@@ -203,7 +204,8 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
        {
            cpu.eflags.OF=OF_temp;
        }
-
+        
+        
     }
     else
     {
