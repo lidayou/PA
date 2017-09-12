@@ -274,7 +274,11 @@ uint32_t internal_float_mul(uint32_t b, uint32_t a) {
 
 	/* TODO: exp_res = ? leave space for GRS bits. */
 	
-    exp_res=fa.exponent+fb.exponent;
+    uint32_t fa_exp=fa.exponent-127;
+    uint32_t fb_exp=fb.exponent-127;
+    
+    exp_res=fa_exp+fb_exp+127;
+
     sig_res=sig_res<<3;
 
 	return internal_normalize(f.sign, exp_res, sig_res);
