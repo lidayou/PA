@@ -163,7 +163,7 @@ uint32_t alu_sub(uint32_t src, uint32_t dest)
 uint32_t alu_sbb(uint32_t src, uint32_t dest) {
 	//if CF is 1 , result-1
     uint32_t result=dest-src;
-
+    
 //    set_OF_add(result,~src+cpu.eflags.CF,dest);
     //divide the sub-work
     if(cpu.eflags.CF==1)
@@ -175,6 +175,10 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
         if(cpu.eflags.CF!=1)
         {
             set_CF_sub(result,1,temp);
+//            set_OF_sub(result,1,temp);
+        }
+        if(cpu.eflags.OF!=1)
+        {
             set_OF_sub(result,1,temp);
         }
     }
