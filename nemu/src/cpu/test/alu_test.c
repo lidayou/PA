@@ -309,6 +309,9 @@ void alu_test_sbb() {
 			printf("oracle eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", test_eflags.CF, test_eflags.PF, test_eflags.ZF, test_eflags.SF, test_eflags.OF);
 			printf("nemu   eflags CF = %d, PF = %d, ZF = %d, SF = %d, OF = %d\n", cpu.eflags.CF, cpu.eflags.PF, cpu.eflags.ZF, cpu.eflags.SF, cpu.eflags.OF);
 			printf("a = %d, b= %d, res = %d, res_asm = %d\n", a, b, res, res_asm);
+           cpu.eflags.CF=1;
+            
+			res = alu_sbb(b, a);
             }
 			assert(res == res_asm);
 			assert(cpu.eflags.CF == test_eflags.CF);
