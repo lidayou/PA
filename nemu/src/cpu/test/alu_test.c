@@ -257,7 +257,7 @@ void alu_test_sbb() {
 
 	uint32_t res, a, b, res_asm, res_eflags;
 	TEST_EFLAGS test_eflags;
-	int input[] = {0x10000000,-3, -2, -1, 0, 1, 2};
+	int input[] = {0x10000000,-3, -2, -1, 0, 1, 2,0x80000000};
 	int n = sizeof(input) / sizeof(int);
 	int i, j;
 	for(i = 0 ; i < n ; i++) {
