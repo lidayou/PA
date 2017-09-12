@@ -200,7 +200,9 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
        int32_t v1=cpu.eflags.OF;
        set_OF_sub(result,1,dest-src);
        int32_t v2=cpu.eflags.OF;
-       if(!(v1==1&&v2==1))
+        set_OF_sub(result,src+1,dest);
+        int32_t v3=cpu.eflags.OF;
+       if(!(v1==1&&v2==1&&v3==1))
        {
            cpu.eflags.OF=OF_temp;
        }
