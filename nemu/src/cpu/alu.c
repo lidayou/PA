@@ -213,7 +213,7 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
        }
         */
         uint32_t my_temp=dest-1;
-        if(sign(my_temp)!=sign(src)&&sign(result)!=sign(src))
+        if(sign(my_temp)!=sign(src)&&sign(result)!=sign(src)&&sign(result)!=sign(my_temp))
         {
             cpu.eflags.OF=1;
         }
