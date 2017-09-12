@@ -192,6 +192,7 @@ uint32_t alu_sbb(uint32_t src, uint32_t dest) {
         if(cpu.eflags.OF!=1)
         {
             set_OF_sub(result,src,dest-1);
+            printf("no here----------------\n");
         }
     }
     else
