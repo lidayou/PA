@@ -149,6 +149,7 @@ void set_OF_sub(uint32_t result,uint32_t src,uint32_t dest)
     else
         cpu.eflags.OF=0;
 }
+
 uint32_t alu_sub(uint32_t src, uint32_t dest)
 {
 	uint32_t result=dest-src;
