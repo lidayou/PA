@@ -135,7 +135,7 @@ void set_CF_sub(uint32_t result,uint32_t src,uint32_t dest)
     {
         set_CF_add(result,temp_result,1);
     }
-  //  cpu.eflags.CF=!cpu.eflags.CF;
+    cpu.eflags.CF=!cpu.eflags.CF;
 }
 
 
@@ -273,7 +273,7 @@ uint64_t alu_mul(uint32_t src, uint32_t dest, size_t data_size) {
 }
 
 int64_t alu_imul(int32_t src, int32_t dest, size_t data_size) {
-	int64_t result=(int32_t)src*(int32_t)dest;
+	int64_t result=(int64_t)src*dest;
     //uint32_t sign_result_lowHalf=(result>>(data_size-1))&0x1;
     
     // imul 's eflags don't stand a test here
