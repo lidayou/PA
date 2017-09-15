@@ -135,7 +135,7 @@ void set_CF_sub(uint32_t result,uint32_t src,uint32_t dest)
     {
         set_CF_add(result,temp_result,1);
     }
-    cpu.eflags.CF=!cpu.eflags.CF;
+  //  cpu.eflags.CF=!cpu.eflags.CF;
 }
 
 
