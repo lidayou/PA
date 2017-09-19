@@ -1,42 +1,43 @@
 #ifndef __INSTR_JCC_H__
 #define __INSTR_JCC_H__
 
-make_instr_impl_lop_cc(j,i,near,e);
-make_instr_impl_lop_cc(j,i,near,a);
-make_instr_impl_lop_cc(j,i,near,b);
-make_instr_impl_lop_cc(j,i,near,g);
-make_instr_impl_lop_cc(j,i,near,l);
-make_instr_impl_lop_cc(j,i,near,o);
-make_instr_impl_lop_cc(j,i,near,p);
-make_instr_impl_lop_cc(j,i,near,s);
-make_instr_impl_lop_cc(j,i,near,ae);
-make_instr_impl_lop_cc(j,i,near,ge);
-make_instr_impl_lop_cc(j,i,near,le);
-make_instr_impl_lop_cc(j,i,near,na);
-make_instr_impl_lop_cc(j,i,near,ne);
-make_instr_impl_lop_cc(j,i,near,no);
-make_instr_impl_lop_cc(j,i,near,np);
-make_instr_impl_lop_cc(j,i,near,ns);
+make_instr_func(je_near);
+make_instr_func(ja_near);
+make_instr_func(jb_near);
+make_instr_func(jg_near);
+make_instr_func(jl_near);
+make_instr_func(jo_near);
+make_instr_func(jp_near);
+make_instr_func(js_near);
+make_instr_func(jae_near);
+make_instr_func(jge_near);
+make_instr_func(jle_near);
+make_instr_func(jna_near);
+make_instr_func(jne_near);
+make_instr_func(jno_near);
+make_instr_func(jnp_near);
+make_instr_func(jns_near);
 
 
-make_instr_impl_lop_cc(j,i,short_,e);
-make_instr_impl_lop_cc(j,i,short_,a);
-make_instr_impl_lop_cc(j,i,short_,b);
-make_instr_impl_lop_cc(j,i,short_,g);
-make_instr_impl_lop_cc(j,i,short_,l);
-make_instr_impl_lop_cc(j,i,short_,o);
-make_instr_impl_lop_cc(j,i,short_,p);
-make_instr_impl_lop_cc(j,i,short_,s);
-make_instr_impl_lop_cc(j,i,short_,ae);
-make_instr_impl_lop_cc(j,i,short_,ge);
-make_instr_impl_lop_cc(j,i,short_,le);
-make_instr_impl_lop_cc(j,i,short_,na);
-make_instr_impl_lop_cc(j,i,short_,ne);
-make_instr_impl_lop_cc(j,i,short_,no);
-make_instr_impl_lop_cc(j,i,short_,np);
-make_instr_impl_lop_cc(j,i,short_,ns);
+make_instr_func(je_short_);
+make_instr_func(ja_short_);
+make_instr_func(jb_short_);
+make_instr_func(jg_short_);
+make_instr_func(jl_short_);
+make_instr_func(jo_short_);
+make_instr_func(jp_short_);
+make_instr_func(js_short_);
+make_instr_func(jae_short_);
+make_instr_func(jge_short_);
+make_instr_func(jle_short_);
+make_instr_func(jna_short_);
+make_instr_func(jne_short_);
+make_instr_func(jno_short_);
+make_instr_func(jnp_short_);
+make_instr_func(jns_short_);
 
-make_instr_impl_lop_cc(j,i,short_,ecxz);
+make_instr_func(jecxz_short_);
+
 
 
 
