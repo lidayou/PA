@@ -113,7 +113,8 @@ int exec_inst() {
 	uint8_t opcode = 0;
 	// get the opcode
 	opcode = instr_fetch(cpu.eip, 1);
-	// instruction decode and execution
+	printf("%d\n",opcode);
+    // instruction decode and execution
 	int len = opcode_entry[opcode](cpu.eip, opcode);
 	return len;
 }
